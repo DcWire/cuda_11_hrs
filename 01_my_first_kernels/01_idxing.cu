@@ -5,7 +5,8 @@
 
 #include <stdio.h>
 
-// The goal is to calculate a unique id for every thread. 
+// The goal is to calculate a unique id for every thread. The calculation MUST CHANGE based on the dimensionality of 
+// the kernel launch, which in turn should match the dimensionality of your data. 
 __global__ void whoami(void) {
     // So think of this in this way... a block within another block and there are gridDim.x blocks in the x direction
     // gridDim.y blocks in the y direction. For row major, its the x dimension + number of blocks in the x direction times 
@@ -42,6 +43,7 @@ __global__ void whoami(void) {
 int main(int argc, char **argv) {
     const int b_x = 2, b_y = 3, b_z = 4;
     // Warp is basically the number of threads executed together. Something related to SIMT: Single Instruction Multiple Thread
+    // Warp is a bunch of threads that are run together in parallel
     const int t_x = 4, t_y = 4, t_z = 4; // the max warp size is 32, so 
     // we will get 2 warp of 32 threads per block
 
